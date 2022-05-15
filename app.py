@@ -40,8 +40,6 @@ def flag(name):
         f"""' style='display:block;margin-left:auto;margin-right:auto;width:30px;border:0;'><div style='text-align:center'>{name}"""
          "</div>")
 
-limit = st.slider(label= 'Number of data to show', max_value=150, min_value=10)
-
 tournaments = []
 
 url = "https://gol.gg/champion/list/season-S12/split-ALL/tournament-ALL/"
@@ -58,7 +56,7 @@ competition = st.sidebar.selectbox('Tournament : ', tournaments)
 option = st.sidebar.selectbox('Data from : ', ['Teams', 'Players', 'Champion'])
 
 @st.cache
-def load_data(option, tournament, number):
+def load_data(option, tournament):
     url = f"https://gol.gg/{option.lower()}/list/season-S12/split-ALL/tournament-{tournament}/"
     html = requests.get(url, headers=headers).text
     soup = BeautifulSoup(html, 'html.parser')
@@ -68,9 +66,11 @@ def load_data(option, tournament, number):
         df['Champion'] = df['Champion'].apply(lambda x: image(x))
     elif 'Country' in df.columns:
         df['Country'] = df['Country'].apply(lambda x: flag(x))
-    return df[:number]
+    return df, len(df.columns)
 
-data = load_data(option, competition, limit)
+data , max = load_data(option, competition)
+
+limit = st.slider(label= 'Number of data to show', max_value=max, min_value=1, value=10 )
 
 st.header(f"""Display *{option}* Stats of *{competition}* """)
-st.write(data.to_html(escape=False, index=False), unsafe_allow_html=True)
+st.write(data[:limit].to_html(escape=False, index=False), unsafe_allow_html=True)
