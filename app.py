@@ -66,7 +66,7 @@ def load_data(option, tournament):
         df['Champion'] = df['Champion'].apply(lambda x: image(x))
     elif 'Country' in df.columns:
         df['Country'] = df['Country'].apply(lambda x: flag(x))
-    return df, len(df.columns)
+    return df, len(df)
 
 data , max = load_data(option, competition)
 
