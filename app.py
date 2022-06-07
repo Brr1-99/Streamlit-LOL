@@ -70,7 +70,7 @@ def load_data(option, tournament):
 
 data , max = load_data(option, competition)
 
-limit = st.slider(label= 'Number of data to show', max_value=max, min_value=1, value=10 )
+limit = st.slider(label= 'Number of data to show', max_value=max, min_value=1, value=int(max/2) )
 
-st.header(f"""Display *{option}* Stats of *{competition}* """)
+st.header(f"""Displaying *{option}* Stats of *{competition}* """)
 st.write(data[:limit].to_html(escape=False, index=False), unsafe_allow_html=True)
