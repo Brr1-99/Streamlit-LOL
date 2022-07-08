@@ -25,7 +25,7 @@ champs = {
     'VelKoz': 'Velkoz'
 }
 
-def image(name):
+def image(name: str) -> str:
     nombre = name
     if nombre in champs.keys():
         final = champs[name]
@@ -35,7 +35,7 @@ def image(name):
         f"""' style='display:block;margin-left:auto;margin-right:auto;width:30px;border:0;'><div style='text-align:center'>{name}"""
          "</div>")
 
-def flag(name):
+def flag(name: str) -> str:
     return(f"<img src='https://countryflagsapi.com/png/{name}"
         f"""' style='display:block;margin-left:auto;margin-right:auto;width:30px;border:0;'><div style='text-align:center'>{name}"""
          "</div>")
@@ -56,7 +56,7 @@ competition = st.sidebar.selectbox('Tournament : ', tournaments)
 option = st.sidebar.selectbox('Data from : ', ['Teams', 'Players', 'Champion'])
 
 @st.cache
-def load_data(option, tournament):
+def load_data(option: str, tournament: str) -> tuple[pd.DataFrame, int]:
     url = f"https://gol.gg/{option.lower()}/list/season-S12/split-ALL/tournament-{tournament}/"
     html = requests.get(url, headers=headers).text
     soup = BeautifulSoup(html, 'html.parser')
